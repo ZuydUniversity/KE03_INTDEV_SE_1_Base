@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - KE03_INTDEV_SE_1_Base</title>
+    <title>@ViewData["Title"] - Matrix Inc</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KE03_INTDEV_SE_1_Base.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href=" https: //fonts.googleapis.com/css2?family =Fenix&family =Jersey+10&display =swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fenix&display=swap">
 </head>
 <body>
     <header>
@@ -23,7 +23,7 @@
                            aria-label="Search">
                 </form>
 
-                <div class="dropdown">
+                <div class="dropdown me-3">
                     <a class="dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="~/images/icons/Usr.svg" width="40" height="40" alt="User Icon">
                     </a>
@@ -34,8 +34,20 @@
                         <li><a class="dropdown-item" href="/Account/Unimplemented">Uitloggen</a></li>
                     </ul>
                 </div>
-                <div class="cartdiv">
-                    <a href="/Cart"><img src="~/images/icons/Cart.svg" width="40" height="40" alt="Cart Icon"></a>
+
+                <div class="position-relative me-3">
+                    <a href="/Cart">
+                        <img src="~/images/icons/Cart.svg" width="40" height="40" alt="Cart Icon">
+                        @{
+                            var cartCount = ViewData["CartCount"] as int? ?? 0;
+                        }
+                        @if (cartCount > 0)
+                        {
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
+                                @cartCount
+                            </span>
+                        }
+                    </a>
                 </div>
             </div>
         </nav>
@@ -60,7 +72,6 @@
                                 </li>
                             }
                         }
-
                     </ul>
                 </div>
 
@@ -70,15 +81,40 @@
             </div>
         </div>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+    @if (TempData["ToastMessage"] != null)
+    {
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+            <div class="toast show align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="toastMessage">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        @TempData["ToastMessage"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    }
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const toastEl = document.getElementById('toastMessage');
+            if (toastEl) {
+                const toast = new bootstrap.Toast(toastEl, { delay: 1500 });
+                toast.show();
+            }
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

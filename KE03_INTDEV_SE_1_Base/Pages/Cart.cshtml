@@ -1,0 +1,81 @@
+﻿@page
+@model Webshop.Pages.CartModel
+@{
+    ViewData["Title"] = "Winkelmandje";
+    var cart = Model.CartItems;
+    decimal verzendkosten = 0.99m;
+    decimal subtotaal = cart.Sum(i => i.Price * i.Quantity);
+    decimal totaal = subtotaal + verzendkosten;
+}
+
+<div class="container py-4">
+    <h1 class="fw-bold mb-4"><i class="bi bi-cart"></i> Winkelwagentje</h1>
+
+    @if (!cart.Any())
+    {
+        <div class="alert alert-info">Je winkelwagen is leeg.</div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8">
+                @foreach (var item in cart)
+                {
+                    <div class="card mb-3">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-md-3">
+                                <img src="/images/products/@($"{@item.Name}.jpg")" class="img-fluid rounded-start" alt="@item.Name">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">@item.Name</h5>
+                                    <p class="card-text">€@item.Price.ToString("0.00")/Stuk</p>
+
+                                    <form method="post" asp-page-handler="Update" class="d-flex gap-2 align-items-center">
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control w-50" />
+                                        <button type="submit" class="btn btn-outline-secondary">Opslaan</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-end pe-3">
+                                <form method="post" asp-page-handler="Remove">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button class="btn btn-outline-danger" type="submit">
+                                        <img src="~/Images/Icons/Trash.svg" alt="Trashcan icon">
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <a href="/Search" class="btn btn-danger mt-3">
+                    <i class="bi bi-arrow-left"></i> Verder Winkelen
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-3">
+                    <h4 class="fw-bold">Overzicht</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Producten [@cart.Count]</span>
+                            <span>€@subtotaal.ToString("0.00")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Verzendkosten</span>
+                            <span>€@verzendkosten.ToString("0.00")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between fw-bold border-top mt-2 pt-2">
+                            <span>Totaal</span>
+                            <span>€@totaal.ToString("0.00")</span>
+                        </li>
+                    </ul>
+
+                    <a href="/Checkout" class="btn btn-danger w-100 mt-4">Verder naar Bestellen</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
