@@ -15,41 +15,26 @@
         Onze <span class="fw-bold text-decoration-underline">veelgebruikte</span> producten:
     </h2>
 
-    @* Producten *@
     <div class="row justify-content-center g-4">
-
-        <div class="col-6 col-sm-4 col-md-3 text-center">
-            <div class="product-box p-3">
-                <a href="/Product/Details/1" class="text-decoration-none text-dark">
-                    <img src="~/images/products/diepgroefkogellagers-small.png" alt="Diepgroefkogellagers" class="img-fluid rounded-4 mb-2" />
-                    <div class="fw-semibold small product-text">Diepgroefkogelballen</div>
-                </a>
-                <div class="fw-bold product-price">€5,99/10st</div>
-            </div>
-        </div>
-
-        <div class="col-6 col-sm-4 col-md-3 text-center">
-            <div class="product-box p-3">
-                <a href="/Product/Details/2" class="text-decoration-none text-dark">
-                    <img src="~/images/products/moertjes-small.png" alt="Moertjes" class="img-fluid rounded-4 mb-2" />
-                    <div class="fw-semibold small product-text">Moertjes</div>
-                </a>
-                <div class="fw-bold product-price">€2,99/25st</div>
-            </div>
-        </div>
-
-        <div class="col-6 col-sm-4 col-md-3 text-center">
-            <div class="product-box p-3">
-                <div class="placeholder-box bg-danger rounded-4 mb-2"></div>
-                <div class="placeholder-text bg-light rounded-3"></div>
-            </div>
-        </div>
-
-        <div class="col-6 col-sm-4 col-md-3 text-center">
-            <div class="product-box p-3">
-                <div class="placeholder-box bg-danger rounded-4 mb-2"></div>
-                <div class="placeholder-text bg-light rounded-3"></div>
-            </div>
-        </div>
+        @if (Model.FeaturedProducts.Any())
+        {
+            foreach (var product in Model.FeaturedProducts)
+            {
+                <div class="col-6 col-sm-4 col-md-3 text-center">
+                    <div class="product-box p-3">
+                        <a href="/Product/Details/@product.Id" class="text-decoration-none text-dark">
+                            <img src="@product.ImagePath" alt="@product.Name" class="img-fluid rounded-4 mb-2" />
+                            <div class="fw-semibold small product-text">@product.Name</div>
+                        </a>
+                        <div class="fw-bold product-price">€@product.Price.ToString("0.00")/@product.Unit</div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted">Er zijn momenteel geen populaire producten beschikbaar.</p>
+        }
     </div>
 </div>
+

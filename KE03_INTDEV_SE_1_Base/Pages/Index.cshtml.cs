@@ -1,28 +1,26 @@
-using DataAccessLayer.Interfaces;
+using DataAccessLayer;
 using DataAccessLayer.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace KE03_INTDEV_SE_1_Base.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly MatrixIncDbContext _context;
 
-        public IList<Customer> Customers { get; set; }
-
-        public IndexModel(ILogger<IndexModel> logger, ICustomerRepository customerRepository)
+        public IndexModel(MatrixIncDbContext context)
         {
-            _logger = logger;
-            _customerRepository = customerRepository;
-            Customers = new List<Customer>();
+            _context = context;
         }
 
-        public void OnGet()
-        {            
-            Customers = _customerRepository.GetAllCustomers().ToList();                            
-            _logger.LogInformation($"getting all {Customers.Count} customers");
+        public List<FeaturedProduct> FeaturedProducts { get; set; } = new();
+
+        public async Task OnGetAsync()
+        {
+            FeaturedProducts = await _context.FeaturedProducts
+                .OrderBy(fp => fp.Name)
+                .ToListAsync();
         }
     }
 }
