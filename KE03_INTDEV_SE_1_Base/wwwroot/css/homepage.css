@@ -1,0 +1,38 @@
+﻿.promo-banner img {
+    border-radius: 20px;
+    max-width: 100%;
+    height: auto;
+}
+
+.popular-products h2 {
+    font-size: 1.75rem;
+}
+
+.product-box {
+    background-color: transparent;
+}
+
+.product-text {
+    font-size: 1.3rem;
+    transition: all 0.2s ease-in-out;
+}
+
+a:hover .product-text {
+    text-decoration: underline;
+}
+
+.product-price {
+    font-size: 1.1rem;
+}
+
+.placeholder-box {
+    width: 100%;
+    padding-top: 100%;
+    border-radius: 2.25vw;
+}
+
+.placeholder-text {
+    height: 20px;
+    width: 60%;
+    margin: 0 auto;
+}

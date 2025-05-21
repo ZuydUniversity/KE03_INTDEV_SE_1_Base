@@ -21,7 +21,7 @@
 
                 <div class="dropdown">
                     <a class="dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="~/icons/Usr.svg" width="40" height="40" alt="User Icon">
+                        <img src="~/images/icons/Usr.svg" width="40" height="40" alt="User Icon">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="/Account/orderhistory">Bestelgeschiedenis</a></li>
@@ -31,17 +31,17 @@
                     </ul>
                 </div>
                 <div class="cartdiv">
-                    <a href="/Cart"><img src="~/icons/Cart.svg" width="40" height="40" alt="Cart Icon"></a>
+                    <a href="/Cart"><img src="~/images/icons/Cart.svg" width="40" height="40" alt="Cart Icon"></a>
                 </div>
             </div>
         </nav>
 
         <div class="bg-light-subtle py-2 border-top">
-            <div class="container d-flex gap-4 fw-bold fs-5"> 
-                @* Make these dropdowns and whatnot for the uhh, or well, just one xD the categories one lol *@
+            <div class="container d-flex gap-4 fw-bold fs-5">
                 <a href="/" class="text-dark text-decoration-none">Categorieën <span>&#9662;</span></a>
                 <a href="/Unimplemented" class="text-dark text-decoration-none">Nieuw binnen <span>&#9662;</span></a>
                 <a href="/Unimplemented" class="text-dark text-decoration-none">OP=OP <span>&#9662;</span></a>
+                <a href="/Privacy" class="text-dark ms-auto me-5 text-decoration-none">Privacy</a>
             </div>
         </div>
     </header>
@@ -50,12 +50,6 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - KE03_INTDEV_SE_1_Base - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
