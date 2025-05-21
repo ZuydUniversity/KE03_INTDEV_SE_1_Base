@@ -1,0 +1,14 @@
+﻿@model List<string>
+
+<div class="dropdown">
+    <a class="text-dark text-decoration-none dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Categorieën
+    </a>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/Search">Alle producten</a></li>
+        @foreach (var category in Model)
+        {
+            <li><a class="dropdown-item" href="/Search?Category=@category">@category</a></li>
+        }
+    </ul>
+</div>

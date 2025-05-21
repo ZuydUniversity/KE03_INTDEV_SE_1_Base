@@ -15,8 +15,12 @@
             <div class="container-fluid">
                 <a class="navbar-brand fw-bold" href="/">M A T R I X  I N C.</a>
 
-                <form class="d-flex mx-auto w-50" role="search">
-                    <input class="form-control bg-secondary bg-opacity-50 text-light border-0 rounded" type="search" placeholder="Zoek een product..." aria-label="Search">
+                <form class="d-flex mx-auto w-50" method="get" asp-page="/Search">
+                    <input class="form-control bg-secondary bg-opacity-50 text-light border-0 rounded"
+                           type="search"
+                           name="search"
+                           placeholder="Zoek een product..."
+                           aria-label="Search">
                 </form>
 
                 <div class="dropdown">
@@ -38,7 +42,28 @@
 
         <div class="bg-light-subtle py-2 border-top">
             <div class="container d-flex gap-4 fw-bold fs-5">
-                <a href="/" class="text-dark text-decoration-none">Categorieën <span>&#9662;</span></a>
+                <div class="dropdown">
+                    <a class="text-dark text-decoration-none dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categorieën
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/Search">Alle producten</a></li>
+                        @{
+                            var categories = ViewData["Categories"] as List<string>;
+                        }
+                        @if (categories != null)
+                        {
+                            foreach (var category in categories)
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="/Search?Category=@category">@category</a>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+
                 <a href="/Unimplemented" class="text-dark text-decoration-none">Nieuw binnen <span>&#9662;</span></a>
                 <a href="/Unimplemented" class="text-dark text-decoration-none">OP=OP <span>&#9662;</span></a>
                 <a href="/Privacy" class="text-dark ms-auto me-5 text-decoration-none">Privacy</a>

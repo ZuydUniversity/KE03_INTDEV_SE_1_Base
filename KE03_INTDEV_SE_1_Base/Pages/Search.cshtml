@@ -1,0 +1,50 @@
+﻿@page
+@model Webshop.Pages.SearchModel
+@{
+    ViewData["Title"] = "Zoekresultaten";
+}
+
+<div class="container mt-4">
+    <h2>@Model.PageTitle</h2>
+
+    @if (Model.SearchResults.Any())
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var product in Model.SearchResults)
+            {
+                <div class="col">
+                    <div class="card h-100 bg-dark text-light">
+                        <img src="/images/products/placeholder.jpg" class="card-img-top" alt="@product.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p class="card-text fw-bold">€@product.Price</p>
+
+                            @if (product.Parts.Any())
+                            {
+                                <p class="card-text">
+                                    <strong>Onderdelen:</strong>
+                                    <ul>
+                                        @foreach (var part in product.Parts)
+                                        {
+                                            <li>@part.Name - @part.Description</li>
+                                        }
+                                    </ul>
+                                </p>
+                            }
+                        </div>
+                        <div class="card-footer text-end">
+                            <form method="post" asp-page-handler="AddToCart" asp-route-id="@product.Id">
+                                <button type="submit" class="btn btn-danger btn-sm">🛒 Voeg toe</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="mt-3">Geen producten gevonden.</p>
+    }
+</div>

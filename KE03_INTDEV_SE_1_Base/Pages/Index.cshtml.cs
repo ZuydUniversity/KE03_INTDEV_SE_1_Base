@@ -16,11 +16,21 @@ namespace KE03_INTDEV_SE_1_Base.Pages
 
         public List<FeaturedProduct> FeaturedProducts { get; set; } = new();
 
+        public List<string> Categories { get; set; } = new();
+
         public async Task OnGetAsync()
         {
             FeaturedProducts = await _context.FeaturedProducts
                 .OrderBy(fp => fp.Name)
                 .ToListAsync();
+
+            Categories = await _context.Categories
+                .Select(p => p.Name)
+                .Distinct()
+                .OrderBy(p => p)
+                .ToListAsync();
+
+            ViewData["Categories"] = Categories;
         }
     }
 }

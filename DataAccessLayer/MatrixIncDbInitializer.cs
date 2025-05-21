@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
@@ -11,11 +9,8 @@ namespace DataAccessLayer
     {
         public static void Initialize(MatrixIncDbContext context)
         {
-            //context.Database.EnsureCreated(); was constantly keeping the old DB, WHOOPS! not so great for testing :P
-
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-
 
             if (!context.Customers.Any())
             {
@@ -37,13 +32,48 @@ namespace DataAccessLayer
                 context.Orders.AddRange(orders);
             }
 
+            Category[] categories = Array.Empty<Category>();
+            if (!context.Categories.Any())
+            {
+                categories = new Category[]
+                {
+                    new Category { Name = "Schepen" },
+                    new Category { Name = "Stoelen" },
+                    new Category { Name = "Wapens" }
+                };
+                context.Categories.AddRange(categories);
+                context.SaveChanges(); // Categories moeten eerst opgeslagen worden :/
+            }
+            else
+            {
+                categories = context.Categories.ToArray();
+            }
+
             if (!context.Products.Any())
             {
                 var products = new Product[]
                 {
-                    new Product { Name = "Nebuchadnezzar", Description = "Het schip waarop Neo voor het eerst de echte wereld leert kennen", Price = 10000.00m },
-                    new Product { Name = "Jack-in Chair", Description = "Stoel met een rugsteun en metalen armen waarin mensen zitten om ingeplugd te worden in de Matrix via een kabel in de nekpoort", Price = 500.50m },
-                    new Product { Name = "EMP (Electro-Magnetic Pulse) Device", Description = "Wapentuig op de schepen van Zion", Price = 129.99m }
+                    new Product
+                    {
+                        Name = "Nebuchadnezzar",
+                        Description = "Het schip waarop Neo voor het eerst de echte wereld leert kennen",
+                        Price = 10000.00m,
+                        Category = categories.First(c => c.Name == "Schepen")
+                    },
+                    new Product
+                    {
+                        Name = "Jack-in Chair",
+                        Description = "Stoel met een rugsteun en metalen armen waarin mensen zitten om ingeplugd te worden in de Matrix via een kabel in de nekpoort",
+                        Price = 500.50m,
+                        Category = categories.First(c => c.Name == "Stoelen")
+                    },
+                    new Product
+                    {
+                        Name = "EMP (Electro-Magnetic Pulse) Device",
+                        Description = "Wapentuig op de schepen van Zion",
+                        Price = 129.99m,
+                        Category = categories.First(c => c.Name == "Wapens")
+                    }
                 };
                 context.Products.AddRange(products);
             }
@@ -64,8 +94,20 @@ namespace DataAccessLayer
             {
                 var featured = new FeaturedProduct[]
                 {
-                    new FeaturedProduct { Name = "Nebuchadnezzar", ImagePath = "/images/products/nebuchadnezzar.jpg", Price = 10000.00m, Unit = "stuk" },
-                    new FeaturedProduct { Name = "Diepgroefkogellagers", ImagePath = "/images/products/Diepgroefkogellagers-small.png", Price = 2.99m, Unit = "25 stuk" }
+                    new FeaturedProduct
+                    {
+                        Name = "Nebuchadnezzar",
+                        ImagePath = "/images/products/nebuchadnezzar.jpg",
+                        Price = 10000.00m,
+                        Unit = "stuk"
+                    },
+                    new FeaturedProduct
+                    {
+                        Name = "Diepgroefkogellagers",
+                        ImagePath = "/images/products/Diepgroefkogellagers-small.png",
+                        Price = 2.99m,
+                        Unit = "25 stuk"
+                    }
                 };
                 context.FeaturedProducts.AddRange(featured);
             }
